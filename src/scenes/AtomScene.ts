@@ -61,12 +61,12 @@ export default class AtomScene extends Phaser.Scene {
     }
 
     // Label
-    const labelY = radius + 30 * scale;
+    const labelY = 70 * scale;
     const label = this.add.text(0, labelY, isotope, {
-      fontSize: (Math.floor(20 * scale) + 'px'),
+      fontSize: (Math.floor(28 * scale) + 'px'),
       color: '#ffffff',
       fontStyle: 'bold'
-    }).setOrigin(0.5);
+    }).setOrigin(0.5).setStroke('#000000', 3);
     container.add(label);
 
     return container;

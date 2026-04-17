@@ -1,12 +1,22 @@
 {
   "atomicNumbers": {
-    "H": 1,
-    "He": 2,
+    "C": 6,
+    "N": 7,
+    "Ar": 18,
+    "K": 19,
+    "Ca": 20,
+    "Tl": 81,
+    "Pb": 82,
+    "Bi": 83,
+    "Po": 84,
+    "At": 85,
+    "Rn": 86,
+    "Fr": 87,
+    "Ra": 88,
+    "Ac": 89,
     "Th": 90,
     "Pa": 91,
-    "U": 92,
-    "Np": 93,
-    "Pu": 94
+    "U": 92
   },
   "isotopes": {
     "U238": {
@@ -22,7 +32,7 @@
       "decays": [
         {
           "branchRatio": 1.0,
-          "type": "beta",
+          "type": "beta-",
           "product": "Pa234"
         }
       ]
@@ -30,23 +40,100 @@
     "Pa234": {
       "decays": [
         {
-          "branchRatio": 0.999,
-          "type": "beta",
+          "branchRatio": 1.0,
+          "type": "beta-",
           "product": "U234"
+        }
+      ]
+    },
+    "U234": {
+      "decays": [
+        {
+          "branchRatio": 1.0,
+          "type": "alpha",
+          "product": "Th230"
+        }
+      ]
+    },
+    "Th230": {
+      "decays": [
+        {
+          "branchRatio": 1.0,
+          "type": "alpha",
+          "product": "Ra226"
+        }
+      ]
+    },
+    "Ra226": {
+      "decays": [
+        {
+          "branchRatio": 1.0,
+          "type": "alpha",
+          "product": "Rn222"
+        }
+      ]
+    },
+    "Rn222": {
+      "decays": [
+        {
+          "branchRatio": 1.0,
+          "type": "alpha",
+          "product": "Po218"
+        }
+      ]
+    },
+    "Po218": {
+      "decays": [
+        {
+          "branchRatio": 0.9998,
+          "type": "alpha",
+          "product": "Pb214"
+        },
+        {
+          "branchRatio": 0.0002,
+          "type": "beta-",
+          "product": "At218"
+        }
+      ]
+    },
+    "Pb214": {
+      "decays": [
+        {
+          "branchRatio": 1.0,
+          "type": "beta-",
+          "product": "Bi214"
+        }
+      ]
+    },
+    "Bi214": {
+      "decays": [
+        {
+          "branchRatio": 0.9998,
+          "type": "beta-",
+          "product": "Po214"
+        },
+        {
+          "branchRatio": 0.0002,
+          "type": "alpha",
+          "product": "Tl210"
+        }
+      ]
+    },
+    "Po214": {
+      "decays": [
+        {
+          "branchRatio": 1.0,
+          "type": "alpha",
+          "product": "Pb210"
         }
       ]
     },
     "U235": {
       "decays": [
         {
-          "branchRatio": 0.993,
+          "branchRatio": 1.0,
           "type": "alpha",
           "product": "Th231"
-        },
-        {
-          "branchRatio": 0.007,
-          "type": "beta",
-          "product": "Np236"
         }
       ]
     },
@@ -54,7 +141,7 @@
       "decays": [
         {
           "branchRatio": 1.0,
-          "type": "beta",
+          "type": "beta-",
           "product": "Pa231"
         }
       ]
@@ -64,7 +151,80 @@
         {
           "branchRatio": 1.0,
           "type": "alpha",
-          "product": "U227"
+          "product": "Ac227"
+        }
+      ]
+    },
+    "Ac227": {
+      "decays": [
+        {
+          "branchRatio": 0.9862,
+          "type": "beta-",
+          "product": "Th227"
+        },
+        {
+          "branchRatio": 0.0138,
+          "type": "alpha",
+          "product": "Fr223"
+        }
+      ]
+    },
+    "Th232": {
+      "decays": [
+        {
+          "branchRatio": 1.0,
+          "type": "alpha",
+          "product": "Ra228"
+        }
+      ]
+    },
+    "Ra228": {
+      "decays": [
+        {
+          "branchRatio": 1.0,
+          "type": "beta-",
+          "product": "Ac228"
+        }
+      ]
+    },
+    "Ac228": {
+      "decays": [
+        {
+          "branchRatio": 1.0,
+          "type": "beta-",
+          "product": "Th228"
+        }
+      ]
+    },
+    "Th228": {
+      "decays": [
+        {
+          "branchRatio": 1.0,
+          "type": "alpha",
+          "product": "Ra224"
+        }
+      ]
+    },
+    "K40": {
+      "decays": [
+        {
+          "branchRatio": 0.8928,
+          "type": "beta-",
+          "product": "Ca40"
+        },
+        {
+          "branchRatio": 0.1072,
+          "type": "electron capture",
+          "product": "Ar40"
+        }
+      ]
+    },
+    "C14": {
+      "decays": [
+        {
+          "branchRatio": 1.0,
+          "type": "beta-",
+          "product": "N14"
         }
       ]
     }
