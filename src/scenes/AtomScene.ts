@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 
 interface DecayData {
   atomicNumbers: Record<string, number>;
-  isotopes: Record<string, { decays: {branchRatio: number; type: string; product: string}[] }>;
+  isotopes: Record<string, { decays: { branchRatio: number; type: string; product: string }[] }>;
 }
 
 interface AtomData {
@@ -69,7 +69,7 @@ export default class AtomScene extends Phaser.Scene {
       container.add(circle);
     }
 
-        const labelY = radius + 30 * scale;    const label = this.add.text(0, labelY, isotope, {      fontSize: `${20 * scale}px`,      color: '#ffffff',      fontStyle: 'bold'    }).setOrigin(0.5);    container.add(label);    return container;
+    const labelY = radius + 30 * scale; const label = this.add.text(0, labelY, isotope, { fontSize: `${20 * scale}px`, color: '#ffffff', fontStyle: 'bold' }).setOrigin(0.5); container.add(label); return container;
   }
 
   renderProducts(x: number, y: number, isotope: string) {
@@ -86,8 +86,8 @@ export default class AtomScene extends Phaser.Scene {
       productContainer.setData('isotope', decay.product);
       productContainer.setData('decayType', decay.type);
       // Add click later
-            productContainer.setInteractive(new Phaser.Geom.Rectangle(-100, -100, 200, 200), Phaser.Geom.Rectangle.Contains);
-      productContainer.on('pointerdown', () => {        this.children.removeAll(true);        const newIsotope = productContainer.getData('isotope') as string;        const centerX = this.cameras.main.centerX;        const centerY = this.cameras.main.height / 3;        this.renderAtom(centerX, centerY, newIsotope, 1.0);        this.renderProducts(centerX, centerY + 250, newIsotope);        this.currentIsotope = newIsotope;      });
+      productContainer.setInteractive(new Phaser.Geom.Rectangle(-100, -100, 200, 200), Phaser.Geom.Rectangle.Contains);
+      productContainer.on('pointerdown', () => { this.children.removeAll(true); const newIsotope = productContainer.getData('isotope') as string; const centerX = this.cameras.main.centerX; const centerY = this.cameras.main.height / 3; this.renderAtom(centerX, centerY, newIsotope, 1.0); this.renderProducts(centerX, centerY + 250, newIsotope); this.currentIsotope = newIsotope; });
       // TODO interaction
     });
   }
