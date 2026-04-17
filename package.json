@@ -1,13 +1,20 @@
 {
   "name": "ph-fission",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {\n    \"dev\": \"vite\",\n    \"build\": \"tsc -b && vite build\",\n    \"preview\": \"vite preview\"\n  },
-  "keywords": [],
+  "description": "Educational radioactive decay simulation",
+  "main": "dist/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "keywords": ["phaser", "simulation", "decay"],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
+  "dependencies": {
+    "phaser": "^3.80.1"
+  },
   "devDependencies": {
     "@types/node": "^25.6.0",
     "typescript": "^6.0.3",

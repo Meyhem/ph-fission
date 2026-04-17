@@ -1,26 +1,25 @@
 import Phaser from 'phaser';
-// import scenes later
+import AtomScene from './scenes/AtomScene';
 
 class BootScene extends Phaser.Scene {
   constructor() {
     super('Boot');
   }
   preload() {
-    this.load.json('decays', 'decay-data.json');
+    this.load.json('decays', '/decay-data.json');
   }
   create() {
     this.scene.start('AtomScene');
   }
 }
 
-const config = {
+const config: Phaser.Types.Core.PhaserConfig = {
   type: Phaser.AUTO,
   width: 1200,
   height: 800,
   parent: 'phaser-container',
-  scene: [BootScene]
+  backgroundColor: '#000033',
+  scene: [BootScene, AtomScene]
 };
 
 const game = new Phaser.Game(config);
-
-export default game;

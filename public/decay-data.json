@@ -1,0 +1,72 @@
+{
+  \"atomicNumbers\": {
+    \"H\": 1,
+    \"He\": 2,
+    \"Th\": 90,
+    \"Pa\": 91,
+    \"U\": 92,
+    \"Np\": 93,
+    \"Pu\": 94
+  },
+  \"isotopes\": {
+    \"U238\": {
+      \"decays\": [
+        {
+          \"branchRatio\": 1.0,
+          \"type\": \"alpha\",
+          \"product\": \"Th234\"
+        }
+      ]
+    },
+    \"Th234\": {
+      \"decays\": [
+        {
+          \"branchRatio\": 1.0,
+          \"type\": \"beta\",
+          \"product\": \"Pa234\"
+        }
+      ]
+    },
+    \"Pa234\": {
+      \"decays\": [
+        {
+          \"branchRatio\": 0.999,
+          \"type\": \"beta\",
+          \"product\": \"U234\"
+        }
+      ]
+    },
+    \"U235\": {
+      \"decays\": [
+        {
+          \"branchRatio\": 0.993,
+          \"type\": \"alpha\",
+          \"product\": \"Th231\"
+        },
+        {
+          \"branchRatio\": 0.007,
+          \"type\": \"beta\",
+          \"product\": \"Np236\"
+        }
+      ]
+    },
+    \"Th231\": {
+      \"decays\": [
+        {
+          \"branchRatio\": 1.0,
+          \"type\": \"beta\",
+          \"product\": \"Pa231\"
+        }
+      ]
+    },
+    \"Pa231\": {
+      \"decays\": [
+        {
+          \"branchRatio\": 1.0,
+          \"type\": \"alpha\",
+          \"product\": \"U227\"
+        }
+      ]
+    }
+  }
+}
