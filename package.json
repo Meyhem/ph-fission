@@ -1,0 +1,16 @@
+{
+  "name": "ph-fission",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {\n    \"dev\": \"vite\",\n    \"build\": \"tsc -b && vite build\",\n    \"preview\": \"vite preview\"\n  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.8"
+  }
+}
