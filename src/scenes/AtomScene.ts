@@ -36,27 +36,27 @@ export default class AtomScene extends Phaser.Scene {
     const protons = this.decayData.atomicNumbers[symbol];
     const neutrons = mass - protons;
 
-    const nucleonRadius = 8 * scale;
+    const nucleonRadius = 10 * scale;
     const total = protons + neutrons;
     const radius = Math.sqrt(total) * nucleonRadius * 1.2;
 
     // Protons red
     for (let i = 0; i < protons; i++) {
       const angle = (i / protons) * Math.PI * 2;
-      const r = radius * 0.8 * Math.random();
+      const r = radius * 0.4 * Math.random();
       const px = Math.cos(angle) * r;
       const py = Math.sin(angle) * r;
-      const circle = this.add.circle(px, py, nucleonRadius, 0xff4444).setInteractive();
+      const circle = this.add.circle(px, py, nucleonRadius, 0xff0000).setInteractive();
       container.add(circle);
     }
 
     // Neutrons blue
     for (let i = 0; i < neutrons; i++) {
       const angle = (i / neutrons) * Math.PI * 2;
-      const r = radius * 0.8 * Math.random();
+      const r = radius * 0.4 * Math.random();
       const px = Math.cos(angle) * r;
       const py = Math.sin(angle) * r;
-      const circle = this.add.circle(px, py, nucleonRadius, 0x4444ff).setInteractive();
+      const circle = this.add.circle(px, py, nucleonRadius, 0x888888).setInteractive();
       container.add(circle);
     }
 
