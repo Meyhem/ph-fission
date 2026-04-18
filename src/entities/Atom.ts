@@ -63,7 +63,7 @@ export default class Atom extends Phaser.GameObjects.Container {
     // Adjust label position based on nucleus size
     const nucleusRadius = nucleonRadius * Math.sqrt(total) * 1.1;
     const labelY = nucleusRadius + (30 * this.atomScale);
-    const label = this.scene.add.text(0, labelY, this.isotope, {
+    const label = new Phaser.GameObjects.Text(this.scene, 0, labelY, this.isotope, {
       fontSize: (Math.floor(28 * this.atomScale) + 'px'),
       color: '#ffffff',
       fontStyle: 'bold'

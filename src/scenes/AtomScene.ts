@@ -16,10 +16,35 @@ export default class AtomScene extends Phaser.Scene {
     this.currentIsotope = 'U238';
 
     this.setupUI();
+    this.setupCameraDrag();
+  }
+
+  setupCameraDrag() {
+    this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
+      // Only drag if the pointer is down AND not over an interactive object
+      // this.input.manager.activePointer.downElement can be used or we check what's hit
+      if (!pointer.isDown) return;
+      
+      const hitTest = this.input.hitTestPointer(pointer);
+      if (hitTest.length > 0) return;
+
+      this.cameras.main.scrollX -= (pointer.x - pointer.prevPosition.x) / this.cameras.main.zoom;
+      this.cameras.main.scrollY -= (pointer.y - pointer.prevPosition.y) / this.cameras.main.zoom;
+    });
+
+    // Add zoom
+    this.input.on('wheel', (pointer: Phaser.Input.Pointer, gameObjects: any, deltaX: number, deltaY: number) => {
+      const zoomSpeed = 0.001;
+      const newZoom = Phaser.Math.Clamp(this.cameras.main.zoom - deltaY * zoomSpeed, 0.2, 2);
+      this.cameras.main.setZoom(newZoom);
+    });
   }
 
   setupUI() {
     this.children.removeAll(true);
+    // Reset camera position when isotope changes
+    this.cameras.main.scrollX = 0;
+    this.cameras.main.scrollY = 0;
     
     const centerX = this.cameras.main.centerX;
     const centerY = this.cameras.main.height / 3;
@@ -56,6 +81,10 @@ export default class AtomScene extends Phaser.Scene {
 
       // Visualize emitted particle
       if (decay.type === 'beta-') {
+        new Electron(this, productX + 80, y - 50, 10);
+      } else if (decay.type === 'beta+' || decay.type === 'electron capture') {
+        // For beta+, we'll use Electron but maybe we should color it differently? 
+        // Let's just make it visible first.
         new Electron(this, productX + 80, y - 50, 10);
       } else if (decay.type === 'alpha') {
         // Alpha particle is just a small He4 atom

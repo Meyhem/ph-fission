@@ -23,3 +23,4 @@ const config: Phaser.Types.Core.PhaserConfig = {
 };
 
 const game = new Phaser.Game(config);
+(window as any).game = game;
