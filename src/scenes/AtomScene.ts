@@ -47,66 +47,72 @@ export default class AtomScene extends Phaser.Scene {
     this.cameras.main.scrollY = 0;
     
     const centerX = this.cameras.main.centerX;
-    const centerY = this.cameras.main.height / 3;
+    const startY = 100;
 
-    // Render main atom
-    new Atom(this, this.currentIsotope, 1.0, this.decayData, centerX, centerY);
-
-    // Render products
-    this.renderProducts(centerX, centerY + 300, this.currentIsotope);
+    const renderedIsotopes = new Set<string>();
+    this.renderChain(centerX, startY, this.currentIsotope, renderedIsotopes);
   }
 
-  renderProducts(x: number, y: number, isotope: string) {
+  renderChain(x: number, y: number, isotope: string, rendered: Set<string>, depth: number = 0) {
+    if (depth > 20 || rendered.has(isotope)) return; 
+    rendered.add(isotope);
+
+    const scale = Math.max(0.4, 1.0 - depth * 0.1);
+    const atom = new Atom(this, isotope, scale, this.decayData, x, y);
+    
+    // Make only the first atom "special" or keep current interaction
+    atom.setInteractive(new Phaser.Geom.Circle(0, 0, 80 * scale), Phaser.Geom.Circle.Contains);
+    atom.on('pointerdown', () => {
+      this.currentIsotope = isotope;
+      this.setupUI();
+    });
+
     const isoData = this.decayData.isotopes[isotope];
     if (!isoData?.decays?.length) return;
 
+    const spacingX = 400 * scale;
+    const spacingY = 250;
     const numProducts = isoData.decays.length;
-    const spacing = 350;
-    const startX = x - (numProducts - 1) * spacing / 2;
+    const startX = x - (numProducts - 1) * spacingX / 2;
 
     isoData.decays.forEach((decay, index) => {
-      const productX = startX + index * spacing;
-      
-      // Decay type label
-      this.add.text(productX, y - 100, `Decay: ${decay.type}`, {
-        fontSize: '18px',
-        color: '#aaaaaa'
-      }).setOrigin(0.5);
+      const productX = startX + index * spacingX;
+      const productY = y + spacingY;
 
-      // Arrow
-      this.add.text(productX, y - 70, '↓', {
-        fontSize: '32px',
-        color: '#ffffff'
-      }).setOrigin(0.5);
+      // Draw Arrow
+      this.drawArrow(x, y + (50 * scale), productX, productY - (50 * scale));
 
-      // Visualize emitted particle
-      if (decay.type === 'beta-') {
-        new Electron(this, productX + 80, y - 50, 10);
-      } else if (decay.type === 'beta+' || decay.type === 'electron capture') {
-        // For beta+, we'll use Electron but maybe we should color it differently? 
-        // Let's just make it visible first.
-        new Electron(this, productX + 80, y - 50, 10);
+      // Particle visualization
+      if (decay.type === 'beta-' || decay.type === 'beta+' || decay.type === 'electron capture') {
+        new Electron(this, (x + productX) / 2 + 30, (y + productY) / 2, 8);
       } else if (decay.type === 'alpha') {
-        // Alpha particle is just a small He4 atom
-        new Atom(this, 'He4', 0.3, this.decayData, productX - 80, y - 50);
+        new Atom(this, 'He4', 0.2, this.decayData, (x + productX) / 2 - 40, (y + productY) / 2);
       }
 
-      const productAtom = new Atom(this, decay.product, 0.7, this.decayData, productX, y);
-      
-      // Interaction
-      productAtom.setInteractive(new Phaser.Geom.Circle(0, 0, 80), Phaser.Geom.Circle.Contains);
-      productAtom.on('pointerdown', () => {
-        this.currentIsotope = decay.product;
-        this.setupUI();
-      });
-      
-      // Hover effect
-      productAtom.on('pointerover', () => {
-        productAtom.setScale(1.1);
-      });
-      productAtom.on('pointerout', () => {
-        productAtom.setScale(1.0);
-      });
+      this.renderChain(productX, productY, decay.product, rendered, depth + 1);
     });
+  }
+
+  drawArrow(startX: number, startY: number, endX: number, endY: number) {
+    const graphics = this.add.graphics();
+    graphics.lineStyle(3, 0xffffff, 0.5);
+    
+    // Draw line
+    graphics.lineBetween(startX, startY, endX, endY);
+
+    // Draw arrowhead
+    const angle = Phaser.Math.Angle.Between(startX, startY, endX, endY);
+    const size = 15;
+    
+    const p1 = Phaser.Math.RotateAround({ x: endX, y: endY }, endX, endY, angle + Math.PI - 0.5);
+    const p2 = Phaser.Math.RotateAround({ x: endX, y: endY }, endX, endY, angle + Math.PI + 0.5);
+
+    graphics.beginPath();
+    graphics.moveTo(endX, endY);
+    graphics.lineTo(p1.x - Math.cos(angle) * 5, p1.y - Math.sin(angle) * 5);
+    graphics.lineTo(p2.x - Math.cos(angle) * 5, p2.y - Math.sin(angle) * 5);
+    graphics.closePath();
+    graphics.fillStyle(0xffffff, 0.5);
+    graphics.fillPath();
   }
 }
