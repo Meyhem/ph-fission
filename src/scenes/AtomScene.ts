@@ -59,9 +59,10 @@ export default class AtomScene extends Phaser.Scene {
 
     const scale = 1.0;
     const atom = new Atom(this, isotope, scale, this.decayData, x, y);
-    
+
     // Make only the first atom "special" or keep current interaction
-    atom.setInteractive(new Phaser.Geom.Circle(0, 0, 80 * scale), Phaser.Geom.Circle.Contains);
+    atom.setInteractive(new Phaser.Geom.Circle(0, 0, atom.getRadius() + 20), Phaser.Geom.Circle.Contains);
+
     atom.on('pointerdown', () => {
       this.currentIsotope = isotope;
       this.setupUI();
