@@ -29,24 +29,23 @@ export default class Atom extends Phaser.GameObjects.Container {
     const nucleonRadius = 8 * this.atomScale;
     const total = protonsCount + neutronsCount;
 
-    // Create a list of nucleons with deterministic even distribution
+    // Create a list of nucleons and shuffle them (except for He4)
     const nucleons: ('p' | 'n')[] = [];
     if (protonsCount === 2 && neutronsCount === 2) {
       // Perfect cross for He4
       nucleons.push('p', 'n', 'p', 'n');
     } else {
-      let pAdded = 0;
-      for (let i = 0; i < total; i++) {
-        if (Math.floor((i + 1) * protonsCount / total) > pAdded) {
-          nucleons.push('p');
-          pAdded++;
-        } else {
-          nucleons.push('n');
-        }
+      for (let i = 0; i < protonsCount; i++) nucleons.push('p');
+      for (let i = 0; i < neutronsCount; i++) nucleons.push('n');
+      
+      // Shuffle types for random appearance
+      for (let i = nucleons.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [nucleons[i], nucleons[j]] = [nucleons[j], nucleons[i]];
       }
     }
 
-    // Get regular positions
+    // Get positions
     const positions = this.getNucleonPositions(total, nucleonRadius);
 
     let maxR = 0;
@@ -97,12 +96,13 @@ export default class Atom extends Phaser.GameObjects.Container {
       positions.push({ x: 0, y: r });  // Bottom
       positions.push({ x: -r, y: 0 }); // Left
     } else {
-      // Vogel's Spiral with extreme packing
-      const goldenAngle = Math.PI * (3 - Math.sqrt(5));
-      const spacing = tightSpacing; 
+      // Packed random distribution for organic appearance
+      // Scale radius based on total particles to maintain packing
+      const radius = nucleonRadius * Math.sqrt(total) * 0.7;
       for (let i = 0; i < total; i++) {
-        const r = spacing * Math.sqrt(i);
-        const theta = i * goldenAngle;
+        // Use uniform distribution in circle
+        const r = radius * Math.sqrt(Math.random());
+        const theta = Math.random() * 2 * Math.PI;
         positions.push({
           x: Math.cos(theta) * r,
           y: Math.sin(theta) * r
