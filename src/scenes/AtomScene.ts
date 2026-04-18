@@ -57,7 +57,7 @@ export default class AtomScene extends Phaser.Scene {
     if (depth > 20 || rendered.has(isotope)) return; 
     rendered.add(isotope);
 
-    const scale = Math.max(0.4, 1.0 - depth * 0.1);
+    const scale = 1.0;
     const atom = new Atom(this, isotope, scale, this.decayData, x, y);
     
     // Make only the first atom "special" or keep current interaction
@@ -70,8 +70,8 @@ export default class AtomScene extends Phaser.Scene {
     const isoData = this.decayData.isotopes[isotope];
     if (!isoData?.decays?.length) return;
 
-    const spacingX = 400 * scale;
-    const spacingY = 250;
+    const spacingX = 600;
+    const spacingY = 300;
     const numProducts = isoData.decays.length;
     const startX = x - (numProducts - 1) * spacingX / 2;
 
@@ -79,8 +79,8 @@ export default class AtomScene extends Phaser.Scene {
       const productX = startX + index * spacingX;
       const productY = y + spacingY;
 
-      // Draw Arrow
-      this.drawArrow(x, y + (50 * scale), productX, productY - (50 * scale));
+      // Draw Arrow - offset slightly more to avoid overlapping text/nucleus
+      this.drawArrow(x, y + 100, productX, productY - 80);
 
       // Particle visualization
       if (decay.type === 'beta-' || decay.type === 'beta+' || decay.type === 'electron capture') {

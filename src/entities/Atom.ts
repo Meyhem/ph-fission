@@ -25,6 +25,7 @@ export default class Atom extends Phaser.GameObjects.Container {
     const protonsCount = this.decayData.atomicNumbers[symbol] || 0;
     const neutronsCount = Math.max(0, mass - protonsCount);
 
+    const fixedRadius = 60 * this.atomScale;
     const nucleonRadius = 8 * this.atomScale;
     const total = protonsCount + neutronsCount;
 
@@ -40,11 +41,12 @@ export default class Atom extends Phaser.GameObjects.Container {
       [nucleons[i], nucleons[j]] = [nucleons[j], nucleons[i]];
     }
 
-    // Vogel's spiral for tight packing
+    // Vogel's spiral for tight packing, but scaled to fixedRadius
     const goldenAngle = Math.PI * (3 - Math.sqrt(5));
     
     nucleons.forEach((type, i) => {
-      const r = nucleonRadius * Math.sqrt(i + 1) * 1.1;
+      // Scale radius proportionally to the sqrt of its index divided by total to fit everything in fixedRadius
+      const r = fixedRadius * Math.sqrt((i + 1) / total);
       const theta = i * goldenAngle;
       
       const px = Math.cos(theta) * r;
@@ -60,9 +62,8 @@ export default class Atom extends Phaser.GameObjects.Container {
     });
 
     // Label
-    // Adjust label position based on nucleus size
-    const nucleusRadius = nucleonRadius * Math.sqrt(total) * 1.1;
-    const labelY = nucleusRadius + (30 * this.atomScale);
+    // Label position is now also consistent
+    const labelY = fixedRadius + (40 * this.atomScale);
     const label = new Phaser.GameObjects.Text(this.scene, 0, labelY, this.isotope, {
       fontSize: (Math.floor(28 * this.atomScale) + 'px'),
       color: '#ffffff',
